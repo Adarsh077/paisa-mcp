@@ -40,7 +40,7 @@ def register(mcp):
 
     @mcp.tool()
     def create_transaction(
-        label: str, amount: float, type: str, tags: list = [], date: str = ""
+        label: str, amount: float, type: str, tags: list[str] = [], date: str = ""
     ) -> dict:
         """
         Create a new transaction.
@@ -49,7 +49,7 @@ def register(mcp):
             label (str): The label for the transaction.
             amount (float): The amount for the transaction.
             type (str): The type of transaction ('income' or 'expense').
-            tags (list, optional): List of tag IDs.
+            tags (list[str], optional): List of tag IDs as strings.  # type: ignore[valid-type]
             date (str, optional): Date of the transaction (ISO format).
 
         Returns:
@@ -63,7 +63,7 @@ def register(mcp):
     def update_transaction(
         transactionId: str,
         label: str = "",
-        tags: list = [],
+        tags: list[str] = [],
         date: str = "",
         amount: float = 0.0,
     ) -> dict:
@@ -73,7 +73,7 @@ def register(mcp):
         Args:
             transactionId (str): The unique identifier of the transaction.
             label (str, optional): New label.
-            tags (list, optional): New list of tag IDs.
+            tags (list[str], optional): New list of tag IDs.
             date (str, optional): New date (ISO format).
             amount (float, optional): New amount.
 
