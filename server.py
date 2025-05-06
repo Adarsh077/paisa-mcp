@@ -1,13 +1,11 @@
 from mcp.server.fastmcp import FastMCP
 import argparse
 from tools.transactions import transactions_mcp
-from tools.tags import tags_mcp
 
 
 mcp = FastMCP("paisa")
 
 transactions_mcp.register(mcp=mcp)
-tags_mcp.register(mcp=mcp)
 
 if __name__ == "__main__":
     # Start the server
