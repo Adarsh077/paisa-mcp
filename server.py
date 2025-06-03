@@ -3,7 +3,7 @@ import argparse
 from tools.transactions import transactions_mcp
 
 
-mcp = FastMCP("paisa")
+mcp = FastMCP("paisa", host="0.0.0.0")
 
 transactions_mcp.register(mcp=mcp)
 
