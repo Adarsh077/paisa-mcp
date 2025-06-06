@@ -2,20 +2,6 @@ import requests
 import config
 
 
-def get_all_transactions(tags=None, type=None, startDate=None, endDate=None):
-    params = {}
-    if tags:
-        params["tags"] = tags
-    if type:
-        params["type"] = type
-    if startDate:
-        params["startDate"] = startDate
-    if endDate:
-        params["endDate"] = endDate
-    response = requests.get(f"{config.api_baseurl}/transactions", params=params)
-    return response.json()
-
-
 def get_transaction_by_id(transactionId):
     response = requests.get(f"{config.api_baseurl}/transactions/{transactionId}")
     return response.json()
