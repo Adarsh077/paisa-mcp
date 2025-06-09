@@ -3,29 +3,6 @@ from . import transactions_api
 
 def register(mcp):
     @mcp.tool()
-    def get_all_transactions(
-        tags: str = "",
-        type: str = "",
-        startDate: str = "",
-        endDate: str = "",
-    ) -> list:
-        """
-        Retrieve all transactions, optionally filtered by tags, type, and date range.
-
-        Args:
-            tags (str, optional): Comma-separated tag IDs to filter transactions.
-            type (str, optional): Transaction type ('income' or 'expense').
-            startDate (str, optional): Start date (ISO format) for filtering.
-            endDate (str, optional): End date (ISO format) for filtering.
-
-        Returns:
-            list: List of transaction objects.
-        """
-        return transactions_api.get_all_transactions(
-            tags=tags, type=type, startDate=startDate, endDate=endDate
-        )
-
-    @mcp.tool()
     def get_transaction_by_id(transactionId: str) -> dict:
         """
         Retrieve a single transaction by its ID.
@@ -104,9 +81,12 @@ def register(mcp):
         startDate: str = "",
         endDate: str = "",
         select: str = "",
+        page: int = 1,
+        limit: int = 20,
+        type: str = "",
     ) -> list:
         """
-        Search transactions by label, tags, date range, and select fields.
+        Search transactions by label, tags, date range, select fields, with pagination support.
 
         Args:
             label (str, optional): Search by label.
@@ -114,10 +94,20 @@ def register(mcp):
             startDate (str, optional): Start date (ISO format).
             endDate (str, optional): End date (ISO format).
             select (str, optional): Comma-separated fields to include in results.
+            page (int, optional): Page number for pagination (1-based). Defaults to 1.
+            limit (int, optional): Number of results per page. Defaults to 20.
+            type (str, optional): Type of transaction to search (income or expense)
 
         Returns:
             list: List of matching transaction objects.
         """
         return transactions_api.search_transactions(
-            label=label, tags=tags, startDate=startDate, endDate=endDate, select=select
+            label=label,
+            tags=tags,
+            startDate=startDate,
+            endDate=endDate,
+            select=select,
+            page=page,
+            limit=limit,
+            type=type,
         )

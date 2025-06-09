@@ -39,7 +39,14 @@ def delete_transaction(transactionId):
 
 
 def search_transactions(
-    label=None, tags=None, startDate=None, endDate=None, select=None
+    label=None,
+    tags=None,
+    startDate=None,
+    endDate=None,
+    select=None,
+    page=None,
+    limit=None,
+    type=None,
 ):
     params = {}
     if label:
@@ -52,5 +59,11 @@ def search_transactions(
         params["endDate"] = endDate
     if select:
         params["select"] = select
+    if page:
+        params["page"] = page
+    if limit:
+        params["limit"] = limit
+    if type:
+        params["type"] = type
     response = requests.get(f"{config.api_baseurl}/transactions/search", params=params)
     return response.json()
