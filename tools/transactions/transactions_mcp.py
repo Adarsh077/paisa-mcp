@@ -24,7 +24,7 @@ def register(mcp):
 
         Args:
             label (str): The label for the transaction.
-            amount (float): The amount for the transaction.
+            amount (float): A POSITIVE floating point number for the amount of transaction.
             type (str): The type of transaction ('income' or 'expense').
             tags (list[str], optional): List of tag IDs as strings.  # type: ignore[valid-type]
             date (str, optional): Date of the transaction (ISO format).
@@ -52,7 +52,7 @@ def register(mcp):
             label (str, optional): New label.
             tags (list[str], optional): New list of tag IDs.
             date (str, optional): New date (ISO format).
-            amount (float, optional): New amount.
+            amount (float, optional): POSITIVE floating point number
 
         Returns:
             dict: The updated transaction object.
