@@ -52,7 +52,10 @@ def search_transactions(
     if label:
         params["label"] = label
     if tags:
-        params["tags"] = tags
+        if tags.lower() == "none":
+            params["tags"] = []
+        else:
+            params["tags"] = tags
     if startDate:
         params["startDate"] = startDate
     if endDate:

@@ -90,7 +90,7 @@ def register(mcp):
 
         Args:
             label (str, optional): Search by label.
-            tags (str, optional): Comma-separated tag IDs.
+            tags (str | None, optional): Comma-separated tag IDs. Use 'None' to get transactions without any tags.
             startDate (str, optional): Start date (ISO format).
             endDate (str, optional): End date (ISO format).
             select (str, optional): Comma-separated fields to include in results.
