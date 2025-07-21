@@ -2,22 +2,34 @@ import requests
 import config
 
 
-def get_transaction_by_id(transactionId):
-    response = requests.get(f"{config.api_baseurl}/transactions/{transactionId}")
+def get_transaction_by_id(transactionId, jwt_token=None):
+    headers = {"Authorization": f"Bearer {jwt_token}"} if jwt_token else {}
+
+    response = requests.get(
+        f"{config.api_baseurl}/transactions/{transactionId}", headers=headers
+    )
     return response.json()
 
 
-def create_transaction(label, amount, type, tags=[], date=None):
+def create_transaction(label, amount, type, tags=[], date=None, jwt_token=None):
+    headers = {"Authorization": f"Bearer {jwt_token}"} if jwt_token else {}
+
     data = {"label": label, "amount": amount, "type": type}
     if len(tags) > 0:
         data["tags"] = tags
     if date is not None:
         data["date"] = date
-    response = requests.post(f"{config.api_baseurl}/transactions", json=data)
+    response = requests.post(
+        f"{config.api_baseurl}/transactions", json=data, headers=headers
+    )
     return response.json()
 
 
-def update_transaction(transactionId, label=None, tags=None, date=None, amount=None):
+def update_transaction(
+    transactionId, label=None, tags=None, date=None, amount=None, jwt_token=None
+):
+    headers = {"Authorization": f"Bearer {jwt_token}"} if jwt_token else {}
+
     update = {}
     if label is not None:
         update["label"] = label
@@ -28,13 +40,19 @@ def update_transaction(transactionId, label=None, tags=None, date=None, amount=N
     if amount is not None:
         update["amount"] = amount
     response = requests.patch(
-        f"{config.api_baseurl}/transactions/{transactionId}", json=update
+        f"{config.api_baseurl}/transactions/{transactionId}",
+        json=update,
+        headers=headers,
     )
     return response.json()
 
 
-def delete_transaction(transactionId):
-    response = requests.delete(f"{config.api_baseurl}/transactions/{transactionId}")
+def delete_transaction(transactionId, jwt_token=None):
+    headers = {"Authorization": f"Bearer {jwt_token}"} if jwt_token else {}
+
+    response = requests.delete(
+        f"{config.api_baseurl}/transactions/{transactionId}", headers=headers
+    )
     return response.json()
 
 
@@ -47,7 +65,10 @@ def search_transactions(
     page=None,
     limit=None,
     type=None,
+    jwt_token=None,
 ):
+    headers = {"Authorization": f"Bearer {jwt_token}"} if jwt_token else {}
+
     params = {}
     if label:
         params["label"] = label
@@ -68,5 +89,7 @@ def search_transactions(
         params["limit"] = limit
     if type:
         params["type"] = type
-    response = requests.get(f"{config.api_baseurl}/transactions/search", params=params)
+    response = requests.get(
+        f"{config.api_baseurl}/transactions/search", params=params, headers=headers
+    )
     return response.json()

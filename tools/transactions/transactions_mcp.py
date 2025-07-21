@@ -3,21 +3,30 @@ from . import transactions_api
 
 def register(mcp):
     @mcp.tool()
-    def get_transaction_by_id(transactionId: str) -> dict:
+    def get_transaction_by_id(transactionId: str, jwt_token: str = "") -> dict:
         """
         Retrieve a single transaction by its ID.
 
         Args:
             transactionId (str): The unique identifier of the transaction.
+            jwt_token (str): Authentication token. Leave empty if not required.
 
         Returns:
             dict: The transaction object if found.
         """
-        return transactions_api.get_transaction_by_id(transactionId)
+        jwt_token_value = jwt_token if jwt_token else None
+        return transactions_api.get_transaction_by_id(
+            transactionId, jwt_token=jwt_token_value
+        )
 
     @mcp.tool()
     def create_transaction(
-        label: str, amount: float, type: str, tags: list[str] = [], date: str = ""
+        label: str,
+        amount: float,
+        type: str,
+        tags: list[str] = [],
+        date: str = "",
+        jwt_token: str = "",
     ) -> dict:
         """
         Create a new transaction.
@@ -28,12 +37,14 @@ def register(mcp):
             type (str): The type of transaction ('income' or 'expense').
             tags (list[str], optional): List of tag IDs as strings.  # type: ignore[valid-type]
             date (str, optional): Date of the transaction (ISO format).
+            jwt_token (str): Authentication token. Leave empty if not required.
 
         Returns:
             dict: The newly created transaction object.
         """
+        jwt_token_value = jwt_token if jwt_token else None
         return transactions_api.create_transaction(
-            label, amount, type, tags=tags, date=date
+            label, amount, type, tags=tags, date=date, jwt_token=jwt_token_value
         )
 
     @mcp.tool()
@@ -43,6 +54,7 @@ def register(mcp):
         tags: list[str] = [],
         date: str = "",
         amount: float = 0.0,
+        jwt_token: str = "",
     ) -> dict:
         """
         Update an existing transaction by its ID.
@@ -53,26 +65,37 @@ def register(mcp):
             tags (list[str], optional): New list of tag IDs.
             date (str, optional): New date (ISO format).
             amount (float, optional): POSITIVE floating point number
+            jwt_token (str): Authentication token. Leave empty if not required.
 
         Returns:
             dict: The updated transaction object.
         """
+        jwt_token_value = jwt_token if jwt_token else None
         return transactions_api.update_transaction(
-            transactionId, label=label, tags=tags, date=date, amount=amount
+            transactionId,
+            label=label,
+            tags=tags,
+            date=date,
+            amount=amount,
+            jwt_token=jwt_token_value,
         )
 
     @mcp.tool()
-    def delete_transaction(transactionId: str) -> dict:
+    def delete_transaction(transactionId: str, jwt_token: str = "") -> dict:
         """
         Soft delete a transaction by its ID.
 
         Args:
             transactionId (str): The unique identifier of the transaction to delete.
+            jwt_token (str): Authentication token. Leave empty if not required.
 
         Returns:
             dict: A message indicating the result of the delete operation.
         """
-        return transactions_api.delete_transaction(transactionId)
+        jwt_token_value = jwt_token if jwt_token else None
+        return transactions_api.delete_transaction(
+            transactionId, jwt_token=jwt_token_value
+        )
 
     @mcp.tool()
     def search_transactions(
@@ -84,6 +107,7 @@ def register(mcp):
         page: int = 1,
         limit: int = 20,
         type: str = "",
+        jwt_token: str = "",
     ) -> list:
         """
         Search transactions by label, tags, date range, select fields, with pagination support.
@@ -97,10 +121,12 @@ def register(mcp):
             page (int, optional): Page number for pagination (1-based). Defaults to 1.
             limit (int, optional): Number of results per page. Defaults to 20.
             type (str, optional): Type of transaction to search (income or expense)
+            jwt_token (str): Authentication token. Leave empty if not required.
 
         Returns:
             list: List of matching transaction objects.
         """
+        jwt_token_value = jwt_token if jwt_token else None
         return transactions_api.search_transactions(
             label=label,
             tags=tags,
@@ -110,4 +136,5 @@ def register(mcp):
             page=page,
             limit=limit,
             type=type,
+            jwt_token=jwt_token_value,
         )
