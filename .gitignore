@@ -3,3 +3,7 @@
 .vscode
 **/__pycache__
 .ropeproject
+
+# sst
+.sst
+node_modules/
