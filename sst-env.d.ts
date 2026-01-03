@@ -5,20 +5,10 @@
 
 declare module "sst" {
   export interface Resource {
-    "PAISA_API_BASE_URL": {
-      "type": "sst.sst.Secret"
-      "value": string
-    }
-    "PaisaMcpApi": {
-      "type": "sst.aws.ApiGatewayV2"
+    "PaisaMcp": {
+      "name": string
+      "type": "sst.aws.Function"
       "url": string
-    }
-    "PaisaMcpService": {
-      "service": string
-      "type": "sst.aws.Service"
-    }
-    "PaisaMcpVpc": {
-      "type": "sst.aws.Vpc"
     }
   }
 }
