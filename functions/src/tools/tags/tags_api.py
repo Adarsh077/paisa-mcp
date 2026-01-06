@@ -1,5 +1,5 @@
 import requests
-import config
+import functions.src.config as config
 
 
 def get_all_tags(jwt_token):
